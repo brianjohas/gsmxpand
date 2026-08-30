@@ -4,112 +4,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/</loc>
+    <loc>https://gsmxpand.unaux.com/</loc>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/blog.html</loc>
+    <loc>https://gsmxpand.unaux.com/index.html</loc>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/contact.html</loc>
+    <loc>https://gsmxpand.unaux.com/tools-drivers.html</loc>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/drivers.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/index.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/request.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/status.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/huawei.html</loc>
+    <loc>https://gsmxpand.unaux.com/blog.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/mtk.html</loc>
+    <loc>https://gsmxpand.unaux.com/contact.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/nokia.html</loc>
+    <loc>https://gsmxpand.unaux.com/request.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/qualcom.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/redmi.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/samsung.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/drivers/spd.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/cheetah-tool.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/hydra.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/nusantara.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/pandora.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/samsung-flashing-utility.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/tft.html</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.bryanheller.unaux.com/tools/umt-pro.html</loc>
+    <loc>https://gsmxpand.unaux.com/status.html</loc>
     <priority>0.8</priority>
   </url>
 

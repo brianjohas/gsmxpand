@@ -1,25 +1,26 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="description" content="Bryan Heller Unlocking Service in Malawi. We provide network unlock, FRP unlock, phone flashing, pattern and PIN unlock, software repair, app installation, and more.">
+<meta name="description" content="Request a smartphone unlock, FRP unlock, phone flashing, or software repair service from GSMXpand Unlocking Service in Malawi. Fast, clear, and tracked.">
 
-<meta name="keywords" content="phone unlocking Malawi, network unlock, FRP unlock, phone flashing, iCloud support, Android unlock, Bryan Heller, smartphone repair">
+<meta name="keywords" content="phone unlocking Malawi, network unlock, FRP unlock, phone flashing, iCloud support, Android unlock, GSMXpand, smartphone repair">
 
-<meta name="author" content="Bryan Heller">
-<meta property="og:title" content="Bryan Heller Unlocking Service">
+
+<meta name="author" content="GSMXpand">
+<meta property="og:title" content="GSMXpand Unlocking Service">
 
 <meta property="og:description" content="Professional smartphone unlocking and software services.">
 
-<meta property="og:image" content="https://www.bryanheller.unaux.com/images/logo.png">
+<meta property="og:image" content="https://www.gsmxpand.unaux.com/images/logo.jpg">
 
-<meta property="og:url" content="https://www.bryanheller.unaux.com">
+<meta property="og:url" content="https://www.gsmxpand.unaux.com">
 
 <meta property="og:type" content="website">
 <meta name="robots" content="index, follow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Request Unlock | Bryan Heller Unlocking Service</title>
+<title>Request Unlock | GSMXpand Unlocking Service</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -32,25 +33,26 @@
 <header class="site-header">
   <div class="logo">
     <a href="index.html">
-      <img src="images/logo.png" alt="Bryan Heller">
+      <img src="images/logo.jpg" alt="GSMXpand">
     </a>
   </div>
-  <div class="menu-toggle" id="menuToggle">☰</div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navbar">☰</button>
   <nav id="navbar">
     <a href="index.html">Home</a>
-    <a href="tools.html">Tools</a>
-    <a href="drivers.html">Drivers</a>
+    <a href="about.html">About Us</a>
+    <a href="tools-drivers.html">Tools & Drivers</a>
     <a href="request.html">Request Unlock</a>
     <a href="status.html">Check Status</a>
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact Us</a>
   </nav>
 </header>
+
 <header>
 <div class="ru">
 <h1>Request Unlock</h1>
 
-<p>Select your device and submit your request.</p>
+<p>Select your device and submit your request. We'll confirm support and next steps with you directly.</p>
 </div>
 </header>
 
@@ -104,15 +106,18 @@
 
 </div>
 
+<p class="form-intro">Fill in the details below as accurately as possible. Fields marked <span class="required-hint">*</span> are required. The more accurate your details, the faster we can confirm your request.</p>
+
 <form id="unlockForm">
 
-<label>Full Name</label>
-<input type="text" id="name" required>
+<label>Full Name <span class="required-hint">*</span></label>
+<input type="text" id="name" required placeholder="e.g. John Banda">
 
-<label>Phone Number</label>
-<input type="tel" id="phone" required>
+<label>Phone Number <span class="required-hint">*</span></label>
+<div class="field-hint">We'll contact you here, preferably via WhatsApp.</div>
+<input type="tel" id="phone" required placeholder="e.g. 0991 234 567">
 
-<label>Phone Brand</label>
+<label>Phone Brand <span class="required-hint">*</span></label>
 <select id="brand" required>
 <option value="">Select Brand</option>
 <option>Samsung</option>
@@ -131,10 +136,11 @@
 <option>Other</option>
 </select>
 
-<label>Phone Model</label>
-<input type="text" id="model" required>
+<label>Phone Model <span class="required-hint">*</span></label>
+<div class="field-hint">Found in Settings &gt; About Phone, or on the box/back of the device.</div>
+<input type="text" id="model" required placeholder="e.g. Galaxy A14, iPhone 11">
 
-<label>Service Required</label>
+<label>Service Required <span class="required-hint">*</span></label>
 <select id="service" required>
 <option value="">Select Service</option>
 <option>Network Unlock</option>
@@ -148,7 +154,8 @@
 </select>
 
 <label>Describe the Problem</label>
-<textarea id="problem"></textarea>
+<div class="field-hint">Optional, but the more detail you give the faster we can help &mdash; e.g. when it started, any error messages, what you've already tried.</div>
+<textarea id="problem" placeholder="Describe what's happening with your phone..."></textarea>
 
 <button type="submit">
 <i class="fab fa-whatsapp"></i>
@@ -157,14 +164,24 @@ Send Request
 
 </form>
 
+<div class="next-steps">
+<h3>What Happens Next</h3>
+<ol>
+<li><strong>We review your request</strong> and confirm whether your device and service are supported.</li>
+<li><strong>We contact you</strong> via WhatsApp or email (whichever you provided) with next steps and any information we still need.</li>
+<li><strong>We complete the service</strong> and confirm with you that everything is working.</li>
+<li><strong>You can track progress anytime</strong> on the <a href="status.html">Check Status</a> page using your reference number.</li>
+</ol>
+</div>
+
 <div class="note">
 
 <h3>Before You Submit</h3>
 
-<p>•Double-check your phone model.<br><br>
-
-•Include a clear description of your issue.<br><br>
-•We will contact you as soon as possible via WhatsApp or Email if provided.
+<p>• Double-check your phone brand and model.<br><br>
+• Describe your issue as clearly as possible &mdash; this reduces back-and-forth.<br><br>
+• Not all services are available for every device; we'll confirm support before proceeding with anything.<br><br>
+• We will contact you as soon as possible via WhatsApp or Email if provided.
 
 </p>
 
@@ -175,29 +192,28 @@ Send Request
 <footer>
 <h2>Follow Us</h2>
 
-<a href="#"><i class="fab fa-facebook"></i></a>
+<a href="https://www.facebook.com/gsmxpand" title="Visit our Facebook page"><i class="fab fa-facebook"></i></a>
 
-<a href="#"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/265984820687" title="Chat with us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
-<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="https://www.instagram.com/gsmxpand" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
 
-<a href="#"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.tiktok.com/@gsmxpand" title="Follow us on TikTok"><i class="fab fa-tiktok"></i></a>
 
 <p class="footer-note">
-Â© 2026 Bryan Heller Unlocking Service
+© 2026 GSMXpand Unlocking Service | <a href="privacy.html" style="color:white;text-decoration:underline;">Privacy Policy</a> | <a href="terms.html" style="color:white;text-decoration:underline;">Terms &amp; Conditions</a>
+</p>
 
 </footer>
 
+<a class="whatsapp"
+href="https://wa.me/265984820687">
+
+<i class="fab fa-whatsapp"></i>
+
+</a>
+
 <script type="module" src="js/app.js"></script>
-<script>
-const menu=document.getElementById("menuToggle");
-const nav=document.getElementById("navbar");
-if (menu && nav) {
-  menu.onclick=function(){
-    nav.classList.toggle("active");
-  };
-}
-</script>
+<script src="js/navigation.js"></script>
 </body>
 </html>
-

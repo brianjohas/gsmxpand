@@ -14,7 +14,7 @@ function generateReference() {
 }
 
 function saveRequestLocally(requestData) {
-  const storageKey = `bryan-unlock-${requestData.reference}`;
+  const storageKey = `gsmxpand-unlock-${requestData.reference}`;
   localStorage.setItem(storageKey, JSON.stringify(requestData));
   return Promise.resolve(requestData.reference);
 }
@@ -35,7 +35,7 @@ async function getStatusByReference(reference) {
     if (snapshot.empty) return null;
     return snapshot.docs[0].data();
   } catch (err) {
-    const saved = localStorage.getItem(`bryan-unlock-${reference}`);
+    const saved = localStorage.getItem(`gsmxpand-unlock-${reference}`);
     return saved ? JSON.parse(saved) : null;
   }
 }
@@ -78,19 +78,6 @@ window.checkStatus = async function () {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.getElementById("menuToggle");
-  const navbar = document.getElementById("navbar");
-
-  if (menuToggle && navbar) {
-    const toggleMenu = function (event) {
-      if (event) event.preventDefault();
-      navbar.classList.toggle("active");
-    };
-
-    menuToggle.addEventListener("click", toggleMenu);
-    menuToggle.addEventListener("touchstart", toggleMenu, { passive: false });
-  }
-
   const unlockForm = document.getElementById("unlockForm");
 
   if (unlockForm) {
@@ -150,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-window.BryanUnlockApp = {
+window.GSMXpandUnlockApp = {
   generateReference,
   saveRequest,
   getStatusByReference

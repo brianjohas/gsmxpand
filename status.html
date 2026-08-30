@@ -1,17 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Track the status of your unlock request with Bryan Heller Unlocking Service using your reference number.">
+<meta name="description" content="Track the status of your unlock request with GSMXpand Unlocking Service using your reference number.">
 <meta name="keywords" content="unlock status, request tracker, phone unlock status, Malawi service">
-<meta name="author" content="Bryan Heller">
+<meta name="author" content="GSMXpand">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#003366">
-<meta property="og:title" content="Bryan Heller Unlocking Service">
+<meta property="og:title" content="GSMXpand Unlocking Service">
 <meta property="og:description" content="Professional smartphone unlocking and software services.">
-<meta property="og:image" content="https://www.bryanheller.unaux.com/images/logo.png">
-<meta property="og:url" content="https://www.bryanheller.unaux.com">
+<meta property="og:image" content="https://www.gsmxpand.unaux.com/images/logo.jpg">
+<meta property="og:url" content="https://www.gsmxpand.unaux.com">
 <meta property="og:type" content="website">
 <title>Check Unlock Status</title>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -26,20 +26,21 @@
 <header class="site-header">
   <div class="logo">
     <a href="index.html">
-      <img src="images/logo.png" alt="Bryan Heller">
+      <img src="images/logo.jpg" alt="GSMXpand">
     </a>
   </div>
-  <div class="menu-toggle" id="menuToggle">☰</div>
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navbar">☰</button>
   <nav id="navbar">
     <a href="index.html">Home</a>
-    <a href="tools.html">Tools</a>
-    <a href="drivers.html">Drivers</a>
+    <a href="about.html">About Us</a>
+    <a href="tools-drivers.html">Tools & Drivers</a>
     <a href="request.html">Request Unlock</a>
     <a href="status.html">Check Status</a>
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact Us</a>
   </nav>
 </header>
+
 <header>
 <div class="ru">
 <h1>Check Unlock Status</h1>
@@ -52,6 +53,8 @@
 
 <h2>Track Your Request</h2>
 
+<p class="status-intro">Your reference number was sent to you after you submitted a request on the <strong>Request Unlock</strong> page. It looks like <strong>BH-2026-0001</strong>.</p>
+
 <input
 type="text"
 id="ref"
@@ -62,6 +65,8 @@ placeholder="Example: BH-2026-0001">
 Check Status
 
 </button>
+
+<p class="no-ref-note">Don't have a reference number? <a href="request.html">Submit a new request</a> or <a href="https://wa.me/265984820687">ask us on WhatsApp</a>.</p>
 
 <div class="result" id="result">
 
@@ -81,33 +86,47 @@ Check Status
 
 </div>
 
+<section class="status-legend">
+  <h3 class="section-title">What the Statuses Mean</h3>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <strong><span class="dot dot-received"></span>Received</strong>
+      <p>We've got your request and are reviewing your device and service details.</p>
+    </div>
+    <div class="legend-item">
+      <strong><span class="dot dot-progress"></span>In Progress</strong>
+      <p>Your service is actively being worked on.</p>
+    </div>
+    <div class="legend-item">
+      <strong><span class="dot dot-waiting"></span>Awaiting Info</strong>
+      <p>We need something from you &mdash; check WhatsApp or email for our message.</p>
+    </div>
+    <div class="legend-item">
+      <strong><span class="dot dot-done"></span>Completed</strong>
+      <p>Your service is finished. We'll confirm everything is working with you directly.</p>
+    </div>
+  </div>
+</section>
+
 <footer>
 <h2>Follow Us</h2>
 
-<a href="#"><i class="fab fa-facebook"></i></a>
+<a href="https://www.facebook.com/gsmxpand" title="Visit our Facebook page"><i class="fab fa-facebook"></i></a>
 
-<a href="#"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/265984820687" title="Chat with us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
-<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="https://www.instagram.com/gsmxpand" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
 
-<a href="#"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.tiktok.com/@gsmxpand" title="Follow us on TikTok"><i class="fab fa-tiktok"></i></a>
 
 <p class="footer-note">
-Â© 2026 Bryan Heller Unlocking Service
+© 2026 GSMXpand Unlocking Service | <a href="privacy.html" style="color:white;text-decoration:underline;">Privacy Policy</a> | <a href="terms.html" style="color:white;text-decoration:underline;">Terms &amp; Conditions</a>
+</p>
 
 </footer>
 
 <script type="module" src="js/app.js"></script>
+<script src="js/navigation.js"></script>
 
-<script>
-const menu=document.getElementById("menuToggle");
-const nav=document.getElementById("navbar");
-if (menu && nav) {
-  menu.onclick=function(){
-    nav.classList.toggle("active");
-  };
-}
-</script>
 </body>
 </html>
-
