@@ -119,13 +119,20 @@ function getStatusColor(status) {
 function applyStatusColor(statusElement, statusText) {
   if (!statusElement) return;
   const colors = getStatusColor(statusText);
-  statusElement.style.color = colors.text;
-  statusElement.style.fontWeight = "600";
-  statusElement.style.fontSize = "18px";
-  statusElement.style.padding = "8px 16px";
-  statusElement.style.borderRadius = "6px";
-  statusElement.style.backgroundColor = colors.bg;
-  statusElement.style.display = "inline-block";
+  
+  // Clear existing classes and apply strong styling
+  statusElement.className = "";
+  statusElement.setAttribute("style", `
+    color: ${colors.text} !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    background-color: ${colors.bg} !important;
+    display: inline-block !important;
+    border: 2px solid ${colors.text} !important;
+    margin: 10px 0 !important;
+  `);
 }
 
 /* ---------------------------------------------------------------
