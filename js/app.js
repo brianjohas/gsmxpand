@@ -107,24 +107,24 @@ function buildUnlockMessage(requestData) {
    --------------------------------------------------------------- */
 function getStatusColor(status) {
   const statusColors = {
-    "Received": "#3b82f6",           // Blue
-    "In Progress": "#f59e0b",         // Amber/Orange
-    "Awaiting Info": "#ef4444",       // Red
-    "Completed": "#10b981",           // Green
-    "Not found": "#6b7280"            // Gray
+    "Received": { text: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)" },           // Blue
+    "In Progress": { text: "#f59e0b", bg: "rgba(245, 158, 11, 0.15)" },         // Amber/Orange
+    "Awaiting Info": { text: "#ef4444", bg: "rgba(239, 68, 68, 0.15)" },        // Red
+    "Completed": { text: "#10b981", bg: "rgba(16, 185, 129, 0.15)" },           // Green
+    "Not found": { text: "#6b7280", bg: "rgba(107, 114, 128, 0.15)" }            // Gray
   };
-  return statusColors[status] || "#0b132b";
+  return statusColors[status] || { text: "#0b132b", bg: "#f3f4f6" };
 }
 
 function applyStatusColor(statusElement, statusText) {
   if (!statusElement) return;
-  const color = getStatusColor(statusText);
-  statusElement.style.color = color;
+  const colors = getStatusColor(statusText);
+  statusElement.style.color = colors.text;
   statusElement.style.fontWeight = "600";
   statusElement.style.fontSize = "18px";
   statusElement.style.padding = "8px 16px";
   statusElement.style.borderRadius = "6px";
-  statusElement.style.backgroundColor = color + "15"; // 15% opacity
+  statusElement.style.backgroundColor = colors.bg;
   statusElement.style.display = "inline-block";
 }
 
