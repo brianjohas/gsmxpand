@@ -1,41 +1,49 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://gsmxpand.unaux.com/</loc>
+    <loc>https://www.gsmxpand.unaux.com/</loc>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/index.html</loc>
+    <loc>https://www.gsmxpand.unaux.com/tools-drivers.html</loc>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/tools-drivers.html</loc>
+    <loc>https://www.gsmxpand.unaux.com/request.html</loc>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/blog.html</loc>
+    <loc>https://www.gsmxpand.unaux.com/blog.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/contact.html</loc>
+    <loc>https://www.gsmxpand.unaux.com/contact.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/request.html</loc>
+    <loc>https://www.gsmxpand.unaux.com/status.html</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://gsmxpand.unaux.com/status.html</loc>
-    <priority>0.8</priority>
+    <loc>https://www.gsmxpand.unaux.com/about.html</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.gsmxpand.unaux.com/privacy.html</loc>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.gsmxpand.unaux.com/terms.html</loc>
+    <priority>0.3</priority>
   </url>
 
 </urlset>

@@ -2,12 +2,65 @@ import { db } from "./firebase.js";
 import {
   collection,
   addDoc,
-  query,
-  where,
-  getDocs,
+  doc,
+  setDoc,
+  getDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
+/* ---------------------------------------------------------------
+   Lightweight toast notifications.
+   Injected entirely from JS so no HTML/CSS changes are required.
+   --------------------------------------------------------------- */
+function ensureToastStyles() {
+  if (document.getElementById("gsmx-toast-styles")) return;
+  const style = document.createElement("style");
+  style.id = "gsmx-toast-styles";
+  style.textContent = `
+    #gsmx-toast-container{position:fixed;bottom:100px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:10px;max-width:320px;}
+    .gsmx-toast{background:#0b132b;color:#fff;padding:14px 18px;border-radius:10px;box-shadow:0 10px 26px rgba(15,23,42,.25);font-size:14px;line-height:1.5;opacity:0;transform:translateY(10px);transition:opacity .25s ease, transform .25s ease;}
+    .gsmx-toast.show{opacity:1;transform:translateY(0);}
+    .gsmx-toast.success{border-left:4px solid #25d366;}
+    .gsmx-toast.error{border-left:4px solid #b91c1c;}
+    @media (max-width:480px){#gsmx-toast-container{right:12px;left:12px;max-width:none;bottom:96px;}}
+  `;
+  document.head.appendChild(style);
+}
+
+function showToast(message, type = "success", timeout = 6000) {
+  ensureToastStyles();
+  let container = document.getElementById("gsmx-toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "gsmx-toast-container";
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement("div");
+  toast.className = `gsmx-toast ${type}`;
+  toast.textContent = message; // textContent only — never render user input as HTML
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add("show"));
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, timeout);
+}
+
+function setButtonLoading(button, isLoading, loadingText) {
+  if (!button) return;
+  if (isLoading) {
+    button.dataset.originalHtml = button.innerHTML;
+    if (loadingText) button.textContent = loadingText;
+    button.disabled = true;
+  } else {
+    if (button.dataset.originalHtml) button.innerHTML = button.dataset.originalHtml;
+    button.disabled = false;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Core request/status logic (unchanged behavior, same field names)
+   --------------------------------------------------------------- */
 function generateReference() {
   const now = new Date();
   return `BH-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${String(Math.floor(Math.random() * 9000) + 1000)}`;
@@ -21,7 +74,13 @@ function saveRequestLocally(requestData) {
 
 async function saveRequest(requestData) {
   try {
-    await addDoc(collection(db, "requests"), { ...requestData, createdAt: serverTimestamp() });
+    // Reference number is used as the document ID itself (not just a field).
+    // This lets Firestore rules allow "fetch this one known ID" for status
+    // checks, without opening up read access to every request on file.
+    await setDoc(doc(db, "requests", requestData.reference), {
+      ...requestData,
+      createdAt: serverTimestamp()
+    });
     return requestData.reference;
   } catch (err) {
     return saveRequestLocally(requestData);
@@ -30,10 +89,9 @@ async function saveRequest(requestData) {
 
 async function getStatusByReference(reference) {
   try {
-    const q = query(collection(db, "requests"), where("reference", "==", reference));
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) return null;
-    return snapshot.docs[0].data();
+    const snap = await getDoc(doc(db, "requests", reference));
+    if (!snap.exists()) return null;
+    return snap.data();
   } catch (err) {
     const saved = localStorage.getItem(`gsmxpand-unlock-${reference}`);
     return saved ? JSON.parse(saved) : null;
@@ -44,10 +102,16 @@ function buildUnlockMessage(requestData) {
   return `📱 *UNLOCK REQUEST*\n\n👤 Name: ${requestData.name}\n\n📞 Phone: ${requestData.phone}\n\n📲 Brand: ${requestData.brand}\n\n📱 Model: ${requestData.model}\n\n🔓 Service: ${requestData.service}\n\n📝 Problem:\n${requestData.problem}`;
 }
 
+/* ---------------------------------------------------------------
+   Status checker — same element ids as before (ref, result, refno,
+   status, progress), plus Enter-key support and a ?ref= deep link.
+   --------------------------------------------------------------- */
 window.checkStatus = async function () {
-  const ref = document.getElementById("ref").value.trim();
+  const refInput = document.getElementById("ref");
+  const ref = refInput.value.trim();
   if (ref === "") {
-    alert("Enter your reference number.");
+    showToast("Please enter your reference number.", "error");
+    refInput.focus();
     return;
   }
 
@@ -78,11 +142,31 @@ window.checkStatus = async function () {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
+  /* Status page: Enter key + auto-check via ?ref=XXXX */
+  const refInput = document.getElementById("ref");
+  if (refInput) {
+    refInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        window.checkStatus();
+      }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const urlRef = params.get("ref");
+    if (urlRef) {
+      refInput.value = urlRef;
+      window.checkStatus();
+    }
+  }
+
+  /* Request Unlock form */
   const unlockForm = document.getElementById("unlockForm");
 
   if (unlockForm) {
     unlockForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+      const submitBtn = unlockForm.querySelector('button[type="submit"]');
 
       const requestData = {
         reference: generateReference(),
@@ -96,29 +180,53 @@ document.addEventListener("DOMContentLoaded", function () {
         progress: "Your request has been received."
       };
 
+      if (!requestData.name || !requestData.phone || !requestData.brand || !requestData.model || !requestData.service) {
+        showToast("Please fill in all required fields before submitting.", "error");
+        return;
+      }
+
       const message = buildUnlockMessage(requestData);
       const url = "https://wa.me/265984820687?text=" + encodeURIComponent(message);
+      // Opened synchronously (before any await) so browsers don't treat it as a blocked popup.
       window.open(url, "_blank");
 
+      setButtonLoading(submitBtn, true, "Saving your request...");
       try {
         await saveRequest(requestData);
-        alert(`Request submitted successfully. Your reference number is ${requestData.reference}`);
+        showToast(
+          `Request submitted! Your reference number is ${requestData.reference} — copied to your clipboard. Use it on the Check Status page to track progress.`,
+          "success",
+          9000
+        );
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(requestData.reference).catch(() => {});
+        }
+        unlockForm.reset();
       } catch (err) {
-        alert("Your request was prepared, but the database could not be reached. Please contact us directly.");
+        showToast(
+          "Your WhatsApp message was prepared, but we couldn't save your request automatically. Please mention this when you message us.",
+          "error",
+          9000
+        );
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     });
   }
 
+  /* Contact form */
   const contactForm = document.getElementById("contactForm");
 
   if (contactForm) {
     contactForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
 
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const message = document.getElementById("message").value.trim();
 
+      setButtonLoading(submitBtn, true, "Sending...");
       try {
         await addDoc(collection(db, "messages"), {
           name,
@@ -127,11 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
           createdAt: serverTimestamp()
         });
 
-        alert("Thank you! Your message has been sent.");
+        showToast("Thank you! Your message has been sent — we'll get back to you soon.", "success");
         contactForm.reset();
       } catch (err) {
         console.error(err);
-        alert("Unable to send your message.");
+        showToast("Unable to send your message right now. Please try WhatsApp instead.", "error");
+      } finally {
+        setButtonLoading(submitBtn, false);
       }
     });
   }

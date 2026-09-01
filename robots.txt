@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.gsmxpand.unaux.com/sitemap.xml
