@@ -107,11 +107,11 @@ function buildUnlockMessage(requestData) {
    --------------------------------------------------------------- */
 function getStatusColor(status) {
   const statusColors = {
-    "Received": { text: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)" },           // Blue
-    "In Progress": { text: "#f59e0b", bg: "rgba(245, 158, 11, 0.15)" },         // Amber/Orange
-    "Awaiting Info": { text: "#ef4444", bg: "rgba(239, 68, 68, 0.15)" },        // Red
-    "Completed": { text: "#10b981", bg: "rgba(16, 185, 129, 0.15)" },           // Green
-    "Not found": { text: "#6b7280", bg: "rgba(107, 114, 128, 0.15)" }            // Gray
+    "Received": { text: "#f59e0b", bg: "rgba(245, 158, 11, 0.15)" },          // Amber/Orange (yellow)
+    "In Progress": { text: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)" },       // Blue
+    "Awaiting Info": { text: "#ef4444", bg: "rgba(239, 68, 68, 0.15)" },      // Red
+    "Completed": { text: "#10b981", bg: "rgba(16, 185, 129, 0.15)" },         // Green
+    "Not found": { text: "#6b7280", bg: "rgba(107, 114, 128, 0.15)" }          // Gray
   };
   return statusColors[status] || { text: "#0b132b", bg: "#f3f4f6" };
 }
