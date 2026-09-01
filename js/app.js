@@ -103,6 +103,32 @@ function buildUnlockMessage(requestData) {
 }
 
 /* ---------------------------------------------------------------
+   Status color coding
+   --------------------------------------------------------------- */
+function getStatusColor(status) {
+  const statusColors = {
+    "Received": "#3b82f6",           // Blue
+    "In Progress": "#f59e0b",         // Amber/Orange
+    "Awaiting Info": "#ef4444",       // Red
+    "Completed": "#10b981",           // Green
+    "Not found": "#6b7280"            // Gray
+  };
+  return statusColors[status] || "#0b132b";
+}
+
+function applyStatusColor(statusElement, statusText) {
+  if (!statusElement) return;
+  const color = getStatusColor(statusText);
+  statusElement.style.color = color;
+  statusElement.style.fontWeight = "600";
+  statusElement.style.fontSize = "18px";
+  statusElement.style.padding = "8px 16px";
+  statusElement.style.borderRadius = "6px";
+  statusElement.style.backgroundColor = color + "15"; // 15% opacity
+  statusElement.style.display = "inline-block";
+}
+
+/* ---------------------------------------------------------------
    Success modal for request submission
    --------------------------------------------------------------- */
 function showSuccessModal(reference, whatsappUrl) {
@@ -184,14 +210,18 @@ window.checkStatus = async function () {
     const requestData = await getStatusByReference(ref);
     if (!requestData) {
       status.textContent = "Not found";
+      applyStatusColor(status, "Not found");
       progress.textContent = "No request was found for this reference number.";
       return;
     }
 
-    status.textContent = requestData.status || "Received";
+    const statusText = requestData.status || "Received";
+    status.textContent = statusText;
+    applyStatusColor(status, statusText);
     progress.textContent = requestData.progress || "Your request is being reviewed.";
   } catch (e) {
     status.textContent = "Unavailable";
+    applyStatusColor(status, "Not found");
     progress.textContent = "The status service is temporarily unavailable.";
   }
 };
