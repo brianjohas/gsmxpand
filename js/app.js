@@ -103,6 +103,61 @@ function buildUnlockMessage(requestData) {
 }
 
 /* ---------------------------------------------------------------
+   Success modal for request submission
+   --------------------------------------------------------------- */
+function showSuccessModal(reference, whatsappUrl) {
+  if (document.getElementById("gsmx-success-modal-styles")) return;
+  
+  // Add modal styles
+  const style = document.createElement("style");
+  style.id = "gsmx-success-modal-styles";
+  style.textContent = `
+    #gsmx-success-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:3000;}
+    .gsmx-modal-content{background:#fff;border-radius:15px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+    .gsmx-modal-icon{font-size:60px;margin-bottom:20px;}
+    .gsmx-modal-title{font-size:22px;font-weight:bold;color:#0b132b;margin-bottom:10px;}
+    .gsmx-modal-ref{font-size:14px;color:#666;margin-bottom:20px;word-break:break-all;}
+    .gsmx-modal-ref strong{color:#0b132b;font-size:16px;}
+    .gsmx-modal-message{font-size:16px;color:#333;margin-bottom:30px;line-height:1.6;}
+    .gsmx-modal-buttons{display:flex;gap:12px;justify-content:center;}
+    .gsmx-modal-btn{padding:12px 28px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;}
+    .gsmx-modal-btn-no{background:#f0f0f0;color:#333;}
+    .gsmx-modal-btn-no:hover{background:#e0e0e0;}
+    .gsmx-modal-btn-yes{background:#25d366;color:#fff;}
+    .gsmx-modal-btn-yes:hover{background:#1fa857;}
+    @media (max-width:480px){.gsmx-modal-content{padding:30px 20px;}.gsmx-modal-buttons{flex-direction:column;}.gsmx-modal-btn{width:100%;}}
+  `;
+  document.head.appendChild(style);
+  
+  // Create modal
+  const modal = document.createElement("div");
+  modal.id = "gsmx-success-modal";
+  modal.innerHTML = `
+    <div class="gsmx-modal-content">
+      <div class="gsmx-modal-icon">✅</div>
+      <h2 class="gsmx-modal-title">Request Submitted Successfully!</h2>
+      <div class="gsmx-modal-ref">Your reference number is<br><strong>${reference}</strong></div>
+      <p class="gsmx-modal-message">Would you like to continue the conversation on WhatsApp?</p>
+      <div class="gsmx-modal-buttons">
+        <button class="gsmx-modal-btn gsmx-modal-btn-no" id="modal-no-btn">No</button>
+        <button class="gsmx-modal-btn gsmx-modal-btn-yes" id="modal-yes-btn">Yes</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  
+  // Button handlers
+  document.getElementById("modal-no-btn").addEventListener("click", () => {
+    modal.remove();
+  });
+  
+  document.getElementById("modal-yes-btn").addEventListener("click", () => {
+    modal.remove();
+    window.open(whatsappUrl, "_blank");
+  });
+}
+
+/* ---------------------------------------------------------------
    Status checker — same element ids as before (ref, result, refno,
    status, progress), plus Enter-key support and a ?ref= deep link.
    --------------------------------------------------------------- */
@@ -186,29 +241,24 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const message = buildUnlockMessage(requestData);
-      const url = "https://wa.me/265984820687?text=" + encodeURIComponent(message);
-      // Opened synchronously (before any await) so browsers don't treat it as a blocked popup.
-      window.open(url, "_blank");
+      const whatsappUrl = "https://wa.me/265984820687?text=" + encodeURIComponent(message);
 
       setButtonLoading(submitBtn, true, "Saving your request...");
       try {
         await saveRequest(requestData);
-        showToast(
-          `Request submitted! Your reference number is ${requestData.reference} — copied to your clipboard. Use it on the Check Status page to track progress.`,
-          "success",
-          9000
-        );
         if (navigator.clipboard) {
           navigator.clipboard.writeText(requestData.reference).catch(() => {});
         }
         unlockForm.reset();
+        setButtonLoading(submitBtn, false);
+        // Show success modal with WhatsApp option
+        showSuccessModal(requestData.reference, whatsappUrl);
       } catch (err) {
         showToast(
-          "Your WhatsApp message was prepared, but we couldn't save your request automatically. Please mention this when you message us.",
+          "Unable to save your request. Please try again or contact us on WhatsApp.",
           "error",
           9000
         );
-      } finally {
         setButtonLoading(submitBtn, false);
       }
     });
@@ -224,23 +274,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
-      const message = document.getElementById("message").value.trim();
+      const msgText = document.getElementById("message").value.trim();
 
       setButtonLoading(submitBtn, true, "Sending...");
       try {
         await addDoc(collection(db, "messages"), {
           name,
           email,
-          message,
+          message: msgText,
           createdAt: serverTimestamp()
         });
 
-        showToast("Thank you! Your message has been sent — we'll get back to you soon.", "success");
         contactForm.reset();
+        setButtonLoading(submitBtn, false);
+        
+        // Show success modal
+        if (document.getElementById("gsmx-contact-success-modal-styles")) return;
+        const style = document.createElement("style");
+        style.id = "gsmx-contact-success-modal-styles";
+        style.textContent = `
+          #gsmx-contact-success-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:3000;}
+          .gsmx-contact-modal-content{background:#fff;border-radius:15px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+          .gsmx-contact-modal-icon{font-size:60px;margin-bottom:20px;}
+          .gsmx-contact-modal-title{font-size:22px;font-weight:bold;color:#0b132b;margin-bottom:20px;}
+          .gsmx-contact-modal-message{font-size:16px;color:#333;margin-bottom:30px;line-height:1.6;}
+          .gsmx-contact-modal-btn{padding:12px 28px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;background:#0b132b;color:#fff;transition:all 0.3s ease;}
+          .gsmx-contact-modal-btn:hover{background:#0d1633;}
+          @media (max-width:480px){.gsmx-contact-modal-content{padding:30px 20px;}}
+        `;
+        document.head.appendChild(style);
+        
+        const modal = document.createElement("div");
+        modal.id = "gsmx-contact-success-modal";
+        modal.innerHTML = `
+          <div class="gsmx-contact-modal-content">
+            <div class="gsmx-contact-modal-icon">✅</div>
+            <h2 class="gsmx-contact-modal-title">Message Sent Successfully!</h2>
+            <p class="gsmx-contact-modal-message">Thank you! We've received your message and will get back to you soon.</p>
+            <button class="gsmx-contact-modal-btn" id="contact-modal-close">Close</button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        
+        document.getElementById("contact-modal-close").addEventListener("click", () => {
+          modal.remove();
+        });
       } catch (err) {
         console.error(err);
         showToast("Unable to send your message right now. Please try WhatsApp instead.", "error");
-      } finally {
         setButtonLoading(submitBtn, false);
       }
     });
