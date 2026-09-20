@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const message = buildUnlockMessage(requestData);
       const whatsappUrl = "https://wa.me/265984820687?text=" + encodeURIComponent(message);
 
-      setButtonLoading(submitBtn, true, "Saving your request...");
+      setButtonLoading(submitBtn, true, "Sending your request...");
       try {
         await saveRequest(requestData);
         if (navigator.clipboard) {
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showSuccessModal(requestData.reference, whatsappUrl);
       } catch (err) {
         showToast(
-          "Unable to save your request. Please try again or contact us on WhatsApp.",
+          "Unable to send your request. Please try again or contact us on WhatsApp.",
           "error",
           9000
         );
