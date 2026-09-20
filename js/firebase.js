@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+// MODIFIED IMPORT: Added doc, setDoc, and serverTimestamp
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 import { getAnalytics, isSupported as analyticsIsSupported } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
 
 // Your web app's Firebase configuration
@@ -20,9 +21,40 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
-// Analytics only works in a real browser context served over http(s), and isn't
-// supported in every environment (e.g. some in-app browsers) — guard it so it
-// never breaks the rest of the app if it's unavailable.
+// --- REWRITE ADDITION: Function to start your collections ---
+async function startCollections() {
+  try {
+    console.log("Setting up collections...");
+
+    // 1. Recreate 'messages' with an easy-to-remember ID
+    await setDoc(doc(db, "messages", "welcome-message-01"), {
+      senderName: "System Administrator",
+      text: "Our messages database has been successfully initialized!",
+      readableTime: new Date().toLocaleString(),
+      createdAt: serverTimestamp(),
+      status: "active"
+    });
+
+    // 2. Recreate 'requests' with an easy-to-remember ID
+    await setDoc(doc(db, "requests", "initial-request-01"), {
+      requestType: "Database Setup",
+      status: "initialized",
+      readableTime: new Date().toLocaleString(),
+      createdAt: serverTimestamp(),
+      systemNote: "Starting the requests collection with a custom document ID."
+    });
+
+    console.log("✓ 'messages' and 'requests' collections successfully started!");
+  } catch (error) {
+    console.error("Error starting collections:", error);
+  }
+}
+
+// Automatically runs the startup setup once when this script is loaded.
+// TIP: Once the collections appear in your console, you can delete or comment out this line!
+startCollections();
+
+// Analytics setup (guarded for non-supported environments)
 let analytics = null;
 analyticsIsSupported()
   .then((supported) => {
